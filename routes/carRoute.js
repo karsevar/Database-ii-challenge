@@ -32,7 +32,27 @@ router.post('/', validatePost, validateUniqueVIN, (req, res) => {
         .catch(error => {
             res.status(500).json(error);
         })
-})
+});
+
+router.delete('/:id', validateId, (req, res) => {
+    db('cars').where({id: req.params.id}).del() 
+        .then(count => {
+            res.status(200).json({message: `deleted ${count} records`});
+        })
+        .catch(error => {
+            res.status(500).json(error);
+        })
+});
+
+router.put('/:id', validateId, validatePost, (req, res) => {
+    db('cars').where({id: req.params.id}).update(req.body) 
+        .then(results => {
+            res.status(200).json({message: `${results} records modified`});
+        })
+        .catch(error => {
+            res.status(500).json(error);
+        })
+});
 
 // middleware:
 function validateId(req, res, next) {
