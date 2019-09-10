@@ -15,11 +15,22 @@ router.get('/', (req, res) => {
 
 router.get('/:id', validateId, (req, res) => {
     db('cars').where({id: req.params.id})
+        .first()
         .then(car => {
-            res.status(200).json(car)
+            res.status(200).json(car);
         })
         .catch(error => {
-            res.status(500).json(error) 
+            res.status(500).json(error);
+        })
+});
+
+router.post('/', validatePost, validateUniqueVIN, (req, res) => {
+    db('cars').insert(req.body, 'id') 
+        .then(([results]) => {
+            res.status(200).json({message: `record of id ${results} has been added`});
+        })
+        .catch(error => {
+            res.status(500).json(error);
         })
 })
 
