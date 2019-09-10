@@ -7,7 +7,7 @@ exports.up = function(knex) {
       tbl.integer('mileage').notNullable();
       tbl.string('vin', 128).unique().notNullable();
       tbl.string('status', 128)
-      tbl.string('transmission')
+      tbl.string('transmission', 128)
   })
 };
 
